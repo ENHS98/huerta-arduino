@@ -48,4 +48,29 @@ class DashboardController extends Controller
 
         return response()->json($datos);
     }
+
+    public function historial(Request $request)
+    {
+        $query = Valor::query();
+    
+        if ($request->filled('from')) {
+            $query->whereDate('created_at', '>=', $request->from);
+        }
+    
+        if ($request->filled('to')) {
+            $query->whereDate('created_at', '<=', $request->to);
+        }
+    
+        $historial = $query->orderBy('created_at', 'desc')->paginate(10);
+    
+        return view('historial', compact('historial'));
+    }    
+    
+
+    public function historialShow($id)
+    {
+        $historial = Valor::findOrFail($id);
+        return view('historialShow', compact('historial'));
+    }
+
 }
