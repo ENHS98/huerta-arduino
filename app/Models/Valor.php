@@ -12,7 +12,5 @@ class Valor extends Model
         'temperatura',
         'humedad',
         'uv',
-        'fecha',
-        'hora',
     ];
 }

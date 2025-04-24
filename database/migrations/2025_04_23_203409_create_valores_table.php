@@ -16,8 +16,6 @@ return new class extends Migration
             $table->string('temperatura');
             $table->string('humedad');
             $table->string('uv');
-            $table->dateTime('fecha');
-            $table->time('hora');
             $table->timestamps();
         });
     }

@@ -58,5 +58,64 @@
                 </div>
             </div>
         </div>
+        
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="mt-10 p-6 bg-white dark:bg-gray-800 rounded-2xl shadow">
+                <h3 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4">Cambios del día</h3>
+                <canvas id="graficoDia" class="w-full h-auto"></canvas>
+            </div>
+        </div>
     </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch("{{ route('dashboard.datos') }}")
+                .then(res => res.json())
+                .then(data => {
+                    const labels = data.map(d => new Date(d.created_at).toLocaleTimeString());
+                    const temperatura = data.map(d => d.temperatura);
+                    const humedad = data.map(d => d.humedad);
+                    const uv = data.map(d => d.uv);
+
+                    const ctx = document.getElementById('graficoDia').getContext('2d');
+                    new Chart(ctx, {
+                        type: 'line',
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Humedad (%)',
+                                    data: humedad,
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    fill: false
+                                },
+                                {
+                                    label: 'Radiación UV',
+                                    data: uv,
+                                    borderColor: 'rgba(255, 206, 86, 1)',
+                                    fill: false
+                                },
+                                {
+                                    label: 'Temperatura (°C)',
+                                    data: temperatura,
+                                    borderColor: 'rgba(255, 99, 132, 1)',
+                                    fill: false
+                                },
+                            ]
+                        },
+                        options: {
+                            responsive: true,
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
+                        }
+                    });
+                });
+        });
+    </script>
+
 </x-app-layout>
