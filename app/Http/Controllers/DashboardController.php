@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Valor;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class DashboardController extends Controller
 {
@@ -31,11 +32,11 @@ class DashboardController extends Controller
 
     public function postValores(Request $request) {
         
-        $valores = new Valor();
-        $valores->temperatura = $request->input('temperatura');
-        $valores->humedad = $request->input('humedad');
-        $valores->uv = $request->input('uv');
-        $valores->save();
+        $valores = Valor::create([
+            'temperatura' => $request->input('temperatura'),
+            'humedad' => $request->input('humedad'),
+            'uv' => $request->input('uv')
+        ]);
 
         return response()->json(['success' => true]);
     }
@@ -76,9 +77,9 @@ class DashboardController extends Controller
 
     public function solicitar()
     {
-        $esp32_ip = "http://192.168.1.123/enviar";
+        $esp32_ip = "http://192.168.176.55/enviar";
 
-        $response = Http::timeout(5)->get($esp32_ip);
+        $response = Http::timeout(10)->get($esp32_ip);
 
         return redirect()->route('dashboard')->with('success', 'Datos solicitados al ESP32');
     }

@@ -5,7 +5,7 @@
                 {{ __('Dashboard') }}
             </h2>
 
-            <a href="#" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
+            <a href="{{ route('dashboard.solicitar') }}" class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
                 Solicitar valores actuales
             </a>
         </div>
@@ -75,6 +75,7 @@
 
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             fetch("{{ route('dashboard.datos') }}")
@@ -122,6 +123,20 @@
                     });
                 });
         });
+
+        @if(session()->has('success'))
+            setTimeout(() => {
+            Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: '{{ session('success') }}',
+                showConfirmButton: false,
+                timer: 3000
+            }).then(() => {
+                location.reload();
+            });
+            }, 3000);
+        @endif
     </script>
 
 </x-app-layout>
