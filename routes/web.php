@@ -18,6 +18,9 @@ Route::middleware('auth')->group(function () {
     // historial
     Route::get('/historial', [DashboardController::class, 'historial'])->name('dashboard.historial');
 
+    // solicitar valores
+    Route::get('/solicitar', [DashboardController::class, 'solicitar'])->name('dashboard.solicitar');
+
     // profile
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use App\Models\Valor;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
@@ -73,4 +74,12 @@ class DashboardController extends Controller
         return view('historialShow', compact('historial'));
     }
 
+    public function solicitar()
+    {
+        $esp32_ip = "http://192.168.1.123/enviar";
+
+        $response = Http::timeout(5)->get($esp32_ip);
+
+        return redirect()->route('dashboard')->with('success', 'Datos solicitados al ESP32');
+    }
 }
